@@ -63,6 +63,50 @@ bool Window::initializeObjects()
 	return true;
 }
 
+std::vector<glm::vec3> Window::objFileToPoints(std::string fileName)
+{
+	std::ifstream objFile(fileName); // The obj file we are reading.
+	std::vector<glm::vec3> points;
+
+	// Check whether the file can be opened.
+	if (objFile.is_open())
+	{
+		std::string line; // A line in the file.
+
+		// Read lines from the file.
+		while (std::getline(objFile, line))
+		{
+			// Turn the line into a string stream for processing.
+			std::stringstream ss;
+			ss << line;
+
+			// Read the first word of the line.
+			std::string label;
+			ss >> label;
+
+			// If the line is about vertex (starting with a "v").
+			if (label == "v")
+			{
+				// Read the later three float numbers and use them as the 
+				// coordinates.
+				glm::vec3 point;
+				ss >> point.x >> point.y >> point.z;
+
+				// Process the point.
+				points.push_back(point);
+			}
+		}
+	}
+	else
+	{
+		std::cerr << "Can't open the file " << fileName << std::endl;
+	}
+
+	objFile.close();
+
+	return points;
+}
+
 void Window::cleanUp()
 {
 	// Deallcoate the objects.

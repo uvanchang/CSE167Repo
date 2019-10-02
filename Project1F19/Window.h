@@ -15,6 +15,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <sstream>
 
 #include "Object.h"
 #include "Cube.h"
@@ -37,6 +38,7 @@ public:
 
 	static bool initializeProgram();
 	static bool initializeObjects();
+	static std::vector<glm::vec3> objFileToPoints(std::string fileName);
 	static void cleanUp();
 	static GLFWwindow* createWindow(int width, int height);
 	static void resizeCallback(GLFWwindow* window, int width, int height);
