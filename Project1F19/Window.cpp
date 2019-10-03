@@ -114,7 +114,7 @@ std::vector<glm::vec3> Window::objFileToPoints(std::string fileName)
 	float minX = points[0].x, minY = points[0].y, minZ = points[0].z;
 	float maxX = points[0].x, maxY = points[0].y, maxZ = points[0].z;
 
-	for (int i = 1; i < points.size(); i++)
+	for (std::vector<glm::vec3>::size_type i = 1; i < points.size(); i++)
 	{
 		if (points[i].x < minX)
 		{
@@ -141,17 +141,35 @@ std::vector<glm::vec3> Window::objFileToPoints(std::string fileName)
 			maxZ = points[i].z;
 		}
 	}
-	
-	std::cout << minX << " " << maxX << " " << (maxX - minX) / 2 << std::endl;
-	std::cout << minY << " " << maxY << " " << (maxY - minY) / 2 << std::endl;
-	std::cout << minZ << " " << maxZ << " " << (maxZ - minZ) / 2 << std::endl;
 
-	for (int i = 0; i < points.size(); i++)
+	float avgX = (maxX - minX) / 2, avgY = (maxY - minY) / 2, avgZ = (maxZ - minZ) / 2;
+	float maxDist;
+
+	if (avgX >= avgY && avgX >= avgZ)
+	{
+		maxDist = avgX;
+	}
+	else if (avgY >= avgX && avgY >= avgZ)
+	{
+		maxDist = avgY;
+	}
+	else if (avgZ >= avgX && avgZ >= avgY)
+	{
+		maxDist = avgZ;
+	}
+
+	for (std::vector<glm::vec3>::size_type i = 0; i < points.size(); i++)
 	{
 		points[i].x -= (maxX + minX) / 2;
+		points[i].x *= 7.5f / maxDist;
 		points[i].y -= (maxY + minY) / 2;
+		points[i].y *= 7.5f / maxDist;
 		points[i].z -= (maxZ + minZ) / 2;
+		points[i].z *= 7.5f / maxDist;
 	}
+
+	minX = points[0].x, minY = points[0].y, minZ = points[0].z;
+	maxX = points[0].x, maxY = points[0].y, maxZ = points[0].z;
 
 	return points;
 }
@@ -159,8 +177,9 @@ std::vector<glm::vec3> Window::objFileToPoints(std::string fileName)
 void Window::cleanUp()
 {
 	// Deallcoate the objects.
-	delete cube;
-	delete cubePoints;
+	delete bunnyPoints;
+	delete dragonPoints;
+	delete bearPoints;
 
 	// Delete the shader program.
 	glDeleteProgram(program);
@@ -269,11 +288,7 @@ void Window::displayCallback(GLFWwindow* window)
 }
 
 void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	/*
-	 * TODO: Modify below to add your key callbacks.
-	 */
-	
+{	
 	// Check for a key press.
 	if (action == GLFW_PRESS)
 	{
