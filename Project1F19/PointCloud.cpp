@@ -3,11 +3,6 @@
 PointCloud::PointCloud(std::string objFilename, std::vector<glm::vec3> points, GLfloat pointSize)
 	: pointSize(pointSize), points(points)
 {
-	/*
-	 * TODO: Section 4, you will need to normalize the object to fit in the
-	 * screen. 
-	 */
-
 	// Set the model matrix to an identity matrix. 
 	model = glm::mat4(1);
 	// Set the color. 

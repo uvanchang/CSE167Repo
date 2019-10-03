@@ -111,6 +111,7 @@ std::vector<glm::vec3> Window::objFileToPoints(std::string fileName)
 
 	objFile.close();
 
+	// Find center point of model
 	float minX = points[0].x, minY = points[0].y, minZ = points[0].z;
 	float maxX = points[0].x, maxY = points[0].y, maxZ = points[0].z;
 
@@ -142,6 +143,7 @@ std::vector<glm::vec3> Window::objFileToPoints(std::string fileName)
 		}
 	}
 
+	// Find max distance away from center
 	float avgX = (maxX - minX) / 2, avgY = (maxY - minY) / 2, avgZ = (maxZ - minZ) / 2;
 	float maxDist;
 
@@ -158,6 +160,7 @@ std::vector<glm::vec3> Window::objFileToPoints(std::string fileName)
 		maxDist = avgZ;
 	}
 
+	// Normalizing scale
 	for (std::vector<glm::vec3>::size_type i = 0; i < points.size(); i++)
 	{
 		points[i].x -= (maxX + minX) / 2;
