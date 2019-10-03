@@ -6,11 +6,16 @@ int Window::height;
 const char* Window::windowTitle = "GLFW Starter Project";
 
 // Objects to display.
-Cube * Window::cube;
-PointCloud * Window::cubePoints;
+Cube* Window::cube;
+PointCloud* Window::cubePoints;
+PointCloud* Window::bunnyPoints;
+PointCloud* Window::dragonPoints;
+PointCloud* Window::bearPoints;
 
 // The object currently displaying.
-Object * Window::currentObj; 
+Object* Window::currentObj; 
+
+GLfloat Window::currentSize;
 
 glm::mat4 Window::projection; // Projection matrix.
 
@@ -52,14 +57,16 @@ bool Window::initializeProgram() {
 
 bool Window::initializeObjects()
 {
-	// Create a cube of size 5.
-	cube = new Cube(5.0f);
-	// Create a point cloud consisting of cube vertices.
-	cubePoints = new PointCloud("foo", 100);
+	// Set currentSize to start at 10
+	currentSize = 10;
 
-	// Set cube to be the first to display
-	currentObj = cube;
+	// Initialzie PointClouds to 3 obj files.
+	bunnyPoints = new PointCloud("bunny", objFileToPoints("bunny.obj"), currentSize);
+	dragonPoints = new PointCloud("dragon", objFileToPoints("dragon.obj"), currentSize);
+	bearPoints = new PointCloud("bear", objFileToPoints("bear.obj"), currentSize);
 
+	// Set bunnyPoints to be the first object to appear.
+	currentObj = bunnyPoints;
 	return true;
 }
 
@@ -234,13 +241,31 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 			// Close the window. This causes the program to also terminate.
 			glfwSetWindowShouldClose(window, GL_TRUE);				
 			break;
-		case GLFW_KEY_1:
-			// Set currentObj to cube
-			currentObj = cube;
+		case GLFW_KEY_F1:
+			// Set currentObj to bunnyPoints.
+			currentObj = bunnyPoints;
 			break;
-		case GLFW_KEY_2:
-			// Set currentObj to cubePoints
-			currentObj = cubePoints;
+		case GLFW_KEY_F2:
+			// Set currentObj to dragonPoints.
+			currentObj = dragonPoints;
+			break;
+		case GLFW_KEY_F3:
+			// Set currentObj to bearPoints.
+			currentObj = bearPoints;
+			break;
+		case GLFW_KEY_P:
+			if (mods == GLFW_MOD_SHIFT) // Make currentObj point size bigger.
+			{
+				currentSize--;
+				std::cout << "P pressed" << std::endl;
+			}
+			else                        // Make currentObj point size smaller.
+			{
+				currentSize++;
+				std::cout << "p pressed" << std::endl;
+			}
+			std::cout << currentSize << std::endl;
+			((PointCloud*)currentObj)->updatePointSize(currentSize);
 			break;
 		default:
 			break;

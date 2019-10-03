@@ -1,24 +1,8 @@
 #include "PointCloud.h"
 
-PointCloud::PointCloud(std::string objFilename, GLfloat pointSize) 
-	: pointSize(pointSize)
+PointCloud::PointCloud(std::string objFilename, std::vector<glm::vec3> points, GLfloat pointSize)
+	: pointSize(pointSize), points(points)
 {
-	/* 
-	 * TODO: Section 2: Currently, all the points are hard coded below. 
-	 * Modify this to read points from an obj file.
-	 */
-	points = 
-	{
-		glm::vec3(-2.5, 2.5, 2.5),
-		glm::vec3(-2.5, -2.5, 2.5),
-		glm::vec3(2.5, -2.5, 2.5),
-		glm::vec3(2.5, 2.5, 2.5),
-		glm::vec3(-2.5, 2.5, -2.5),
-		glm::vec3(-2.5, -2.5, -2.5),
-		glm::vec3(2.5, -2.5, -2.5),
-		glm::vec3(2.5, 2.5, -2.5)
-	};
-
 	/*
 	 * TODO: Section 4, you will need to normalize the object to fit in the
 	 * screen. 
@@ -50,6 +34,8 @@ PointCloud::PointCloud(std::string objFilename, GLfloat pointSize)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	// Unbind from the VAO.
 	glBindVertexArray(0);
+
+	std::cout << "Initialized " + objFilename << std::endl;
 }
 
 PointCloud::~PointCloud() 
@@ -79,9 +65,7 @@ void PointCloud::update()
 
 void PointCloud::updatePointSize(GLfloat size) 
 {
-	/*
-	 * TODO: Section 3: Implement this function to adjust the point size.
-	 */
+	glPointSize(size);
 }
 
 void PointCloud::spin(float deg)

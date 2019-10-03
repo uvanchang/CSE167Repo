@@ -11,6 +11,7 @@
 #include <glm/gtx/transform.hpp>
 #include <vector>
 #include <string>
+#include <iostream>
 
 #include "Object.h"
 
@@ -21,7 +22,7 @@ private:
 	GLuint vao, vbo;
 	GLfloat pointSize;
 public:
-	PointCloud(std::string objFilename, GLfloat pointSize);
+	PointCloud(std::string objFilename, std::vector<glm::vec3> points, GLfloat pointSize);
 	~PointCloud();
 
 	void draw();
