@@ -111,6 +111,48 @@ std::vector<glm::vec3> Window::objFileToPoints(std::string fileName)
 
 	objFile.close();
 
+	float minX = points[0].x, minY = points[0].y, minZ = points[0].z;
+	float maxX = points[0].x, maxY = points[0].y, maxZ = points[0].z;
+
+	for (int i = 1; i < points.size(); i++)
+	{
+		if (points[i].x < minX)
+		{
+			minX = points[i].x;
+		}
+		if (points[i].y < minY)
+		{
+			minY = points[i].y;
+		}
+		if (points[i].z < minZ)
+		{
+			minZ = points[i].z;
+		}
+		if (points[i].x > maxX)
+		{
+			maxX = points[i].x;
+		}
+		if (points[i].y > maxY)
+		{
+			maxY = points[i].y;
+		}
+		if (points[i].z > maxZ)
+		{
+			maxZ = points[i].z;
+		}
+	}
+	
+	std::cout << minX << " " << maxX << " " << (maxX - minX) / 2 << std::endl;
+	std::cout << minY << " " << maxY << " " << (maxY - minY) / 2 << std::endl;
+	std::cout << minZ << " " << maxZ << " " << (maxZ - minZ) / 2 << std::endl;
+
+	for (int i = 0; i < points.size(); i++)
+	{
+		points[i].x -= (maxX + minX) / 2;
+		points[i].y -= (maxY + minY) / 2;
+		points[i].z -= (maxZ + minZ) / 2;
+	}
+
 	return points;
 }
 
@@ -256,12 +298,12 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 		case GLFW_KEY_P:
 			if (mods == GLFW_MOD_SHIFT) // Make currentObj point size bigger.
 			{
-				currentSize--;
+				currentSize++;
 				std::cout << "P pressed" << std::endl;
 			}
 			else                        // Make currentObj point size smaller.
 			{
-				currentSize++;
+				currentSize--;
 				std::cout << "p pressed" << std::endl;
 			}
 			std::cout << currentSize << std::endl;
