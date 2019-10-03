@@ -15,8 +15,6 @@ PointCloud* Window::bearPoints;
 // The object currently displaying.
 Object* Window::currentObj; 
 
-GLfloat Window::currentSize;
-
 glm::mat4 Window::projection; // Projection matrix.
 
 glm::vec3 Window::eye(0, 0, 20); // Camera position.
@@ -57,13 +55,10 @@ bool Window::initializeProgram() {
 
 bool Window::initializeObjects()
 {
-	// Set currentSize to start at 10
-	currentSize = 10;
-
 	// Initialzie PointClouds to 3 obj files.
-	bunnyPoints = new PointCloud("bunny", objFileToPoints("bunny.obj"), currentSize);
-	dragonPoints = new PointCloud("dragon", objFileToPoints("dragon.obj"), currentSize);
-	bearPoints = new PointCloud("bear", objFileToPoints("bear.obj"), currentSize);
+	bunnyPoints = new PointCloud("bunny", objFileToPoints("bunny.obj"), 10);
+	dragonPoints = new PointCloud("dragon", objFileToPoints("dragon.obj"), 10);
+	bearPoints = new PointCloud("bear", objFileToPoints("bear.obj"), 10);
 
 	// Set bunnyPoints to be the first object to appear.
 	currentObj = bunnyPoints;
@@ -316,16 +311,12 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 		case GLFW_KEY_P:
 			if (mods == GLFW_MOD_SHIFT) // Make currentObj point size bigger.
 			{
-				currentSize++;
-				std::cout << "P pressed" << std::endl;
+				((PointCloud*)currentObj)->updatePointSize(1);
 			}
 			else                        // Make currentObj point size smaller.
 			{
-				currentSize--;
-				std::cout << "p pressed" << std::endl;
+				((PointCloud*)currentObj)->updatePointSize(-1);
 			}
-			std::cout << currentSize << std::endl;
-			((PointCloud*)currentObj)->updatePointSize(currentSize);
 			break;
 		default:
 			break;

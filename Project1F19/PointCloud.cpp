@@ -60,7 +60,12 @@ void PointCloud::update()
 
 void PointCloud::updatePointSize(GLfloat size) 
 {
-	glPointSize(size);
+	pointSize += size;
+	std::cout << pointSize << std::endl;
+	// Set point size.
+	glPointSize(pointSize);
+	// Draw points 
+	glDrawArrays(GL_POINTS, 0, points.size());
 }
 
 void PointCloud::spin(float deg)
