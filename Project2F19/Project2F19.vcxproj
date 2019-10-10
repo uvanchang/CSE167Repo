@@ -102,6 +102,7 @@
   <ItemGroup>
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="PointCloud.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -109,6 +110,7 @@
   <ItemGroup>
     <ClInclude Include="Cube.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="PointCloud.h" />
     <ClInclude Include="shader.h" />

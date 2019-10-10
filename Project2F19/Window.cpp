@@ -6,11 +6,9 @@ int Window::height;
 const char* Window::windowTitle = "GLFW Starter Project";
 
 // Objects to display.
-Cube* Window::cube;
-PointCloud* Window::cubePoints;
-PointCloud* Window::bunnyPoints;
-PointCloud* Window::dragonPoints;
-PointCloud* Window::bearPoints;
+Model* Window::bunny;
+Model* Window::dragon;
+Model* Window::bear;
 
 // The object currently displaying.
 Object* Window::currentObj; 
@@ -55,129 +53,22 @@ bool Window::initializeProgram() {
 
 bool Window::initializeObjects()
 {
-	// Initialzie PointClouds to 3 obj files.
-	bunnyPoints = new PointCloud("bunny", objFileToPoints("bunny.obj"), 10);
-	dragonPoints = new PointCloud("dragon", objFileToPoints("dragon.obj"), 10);
-	bearPoints = new PointCloud("bear", objFileToPoints("bear.obj"), 10);
+	// Initialzie Models from 3 obj files.
+	bunny = new Model("bunny.obj");
+	dragon = new Model("dragon.obj");
+	bear = new Model("bear.obj");
 
-	// Set bunnyPoints to be the first object to appear.
-	currentObj = bunnyPoints;
+	// Set bunny to be the first object to appear.
+	currentObj = bunny;
 	return true;
-}
-
-std::vector<glm::vec3> Window::objFileToPoints(std::string fileName)
-{
-	std::ifstream objFile(fileName); // The obj file we are reading.
-	std::vector<glm::vec3> points;
-
-	// Check whether the file can be opened.
-	if (objFile.is_open())
-	{
-		std::string line; // A line in the file.
-
-		// Read lines from the file.
-		while (std::getline(objFile, line))
-		{
-			// Turn the line into a string stream for processing.
-			std::stringstream ss;
-			ss << line;
-
-			// Read the first word of the line.
-			std::string label;
-			ss >> label;
-
-			// If the line is about vertex (starting with a "v").
-			if (label == "v")
-			{
-				// Read the later three float numbers and use them as the 
-				// coordinates.
-				glm::vec3 point;
-				ss >> point.x >> point.y >> point.z;
-
-				// Process the point.
-				points.push_back(point);
-			}
-		}
-	}
-	else
-	{
-		std::cerr << "Can't open the file " << fileName << std::endl;
-	}
-
-	objFile.close();
-
-	// Find center point of model
-	float minX = points[0].x, minY = points[0].y, minZ = points[0].z;
-	float maxX = points[0].x, maxY = points[0].y, maxZ = points[0].z;
-
-	for (std::vector<glm::vec3>::size_type i = 1; i < points.size(); i++)
-	{
-		if (points[i].x < minX)
-		{
-			minX = points[i].x;
-		}
-		if (points[i].y < minY)
-		{
-			minY = points[i].y;
-		}
-		if (points[i].z < minZ)
-		{
-			minZ = points[i].z;
-		}
-		if (points[i].x > maxX)
-		{
-			maxX = points[i].x;
-		}
-		if (points[i].y > maxY)
-		{
-			maxY = points[i].y;
-		}
-		if (points[i].z > maxZ)
-		{
-			maxZ = points[i].z;
-		}
-	}
-
-	// Find max distance away from center
-	float avgX = (maxX - minX) / 2, avgY = (maxY - minY) / 2, avgZ = (maxZ - minZ) / 2;
-	float maxDist;
-
-	if (avgX >= avgY && avgX >= avgZ)
-	{
-		maxDist = avgX;
-	}
-	else if (avgY >= avgX && avgY >= avgZ)
-	{
-		maxDist = avgY;
-	}
-	else if (avgZ >= avgX && avgZ >= avgY)
-	{
-		maxDist = avgZ;
-	}
-
-	// Normalizing scale
-	for (std::vector<glm::vec3>::size_type i = 0; i < points.size(); i++)
-	{
-		points[i].x -= (maxX + minX) / 2;
-		points[i].x *= 7.5f / maxDist;
-		points[i].y -= (maxY + minY) / 2;
-		points[i].y *= 7.5f / maxDist;
-		points[i].z -= (maxZ + minZ) / 2;
-		points[i].z *= 7.5f / maxDist;
-	}
-
-	minX = points[0].x, minY = points[0].y, minZ = points[0].z;
-	maxX = points[0].x, maxY = points[0].y, maxZ = points[0].z;
-
-	return points;
 }
 
 void Window::cleanUp()
 {
 	// Deallcoate the objects.
-	delete bunnyPoints;
-	delete dragonPoints;
-	delete bearPoints;
+	delete bunny;
+	delete dragon;
+	delete bear;
 
 	// Delete the shader program.
 	glDeleteProgram(program);
@@ -298,25 +189,15 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 			break;
 		case GLFW_KEY_F1:
 			// Set currentObj to bunnyPoints.
-			currentObj = bunnyPoints;
+			currentObj = bunny;
 			break;
 		case GLFW_KEY_F2:
 			// Set currentObj to dragonPoints.
-			currentObj = dragonPoints;
+			currentObj = dragon;
 			break;
 		case GLFW_KEY_F3:
 			// Set currentObj to bearPoints.
-			currentObj = bearPoints;
-			break;
-		case GLFW_KEY_P:
-			if (mods == GLFW_MOD_SHIFT) // Make currentObj point size bigger.
-			{
-				((PointCloud*)currentObj)->updatePointSize(1);
-			}
-			else                        // Make currentObj point size smaller.
-			{
-				((PointCloud*)currentObj)->updatePointSize(-1);
-			}
+			currentObj = bear;
 			break;
 		default:
 			break;

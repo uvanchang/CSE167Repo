@@ -21,6 +21,7 @@
 #include "Cube.h"
 #include "PointCloud.h"
 #include "shader.h"
+#include "Model.h"
 
 class Window
 {
@@ -28,13 +29,10 @@ public:
 	static int width;
 	static int height;
 	static const char* windowTitle;
-	static Cube* cube;
-	static PointCloud* cubePoints;
-	static PointCloud* bunnyPoints;
-	static PointCloud* dragonPoints;
-	static PointCloud* bearPoints;
+	static Model* bunny;
+	static Model* dragon;
+	static Model* bear;
 	static Object* currentObj;
-	static GLfloat currentSize;
 	static glm::mat4 projection;
 	static glm::mat4 view;
 	static glm::vec3 eye, center, up;
@@ -42,7 +40,6 @@ public:
 
 	static bool initializeProgram();
 	static bool initializeObjects();
-	static std::vector<glm::vec3> objFileToPoints(std::string fileName);
 	static void cleanUp();
 	static GLFWwindow* createWindow(int width, int height);
 	static void resizeCallback(GLFWwindow* window, int width, int height);

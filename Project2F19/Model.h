@@ -1,5 +1,5 @@
-#ifndef _CUBE_H_
-#define _CUBE_H_
+#ifndef _MODEL_H_
+#define _MODEL_H_
 
 #ifdef __APPLE__
 #include <OpenGL/gl3.h>
@@ -10,17 +10,22 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <vector>
+#include <iostream>
+#include <sstream>
+#include <fstream>
 
 #include "Object.h"
 
-class Cube : public Object
+class Model : public Object
 {
 private:
 	GLuint vao;
 	GLuint vbos[2];
+	GLuint ebo;
+	int indicesNum;
 public:
-	Cube(float size);
-	~Cube();
+	Model(std::string fileName);
+	~Model();
 
 	void draw();
 	void update();
