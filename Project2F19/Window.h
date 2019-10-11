@@ -32,6 +32,9 @@ public:
 	static Model* dragon;
 	static Model* bear;
 	static Object* currentObj;
+	static glm::vec3 curPoint;
+	static glm::vec3 lastPoint;
+	static bool leftButtonPressed;
 	static glm::mat4 projection;
 	static glm::mat4 view;
 	static glm::vec3 eye, center, up;
@@ -42,11 +45,12 @@ public:
 	static void cleanUp();
 	static GLFWwindow* createWindow(int width, int height);
 	static void resizeCallback(GLFWwindow* window, int width, int height);
-	static void idleCallback();
 	static void displayCallback(GLFWwindow*);
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-	static void mouseCallback(GLFWwindow* window, int button, int action, int mods);
+	static void positionCallback(GLFWwindow* window, double xpos, double ypos);
+	static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 	static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+	static glm::vec3 trackBallMapping(glm::vec2 point);
 };
 
 #endif

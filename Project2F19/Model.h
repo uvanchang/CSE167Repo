@@ -28,9 +28,8 @@ public:
 	~Model();
 
 	void draw();
-	void update();
 
-	void spin(float deg);
+	void rotate(glm::vec3 lastPoint, glm::vec3 curPoint);
 	void changeSize(double offset);
 };
 

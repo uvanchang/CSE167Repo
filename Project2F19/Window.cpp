@@ -13,6 +13,10 @@ Model* Window::bear;
 // The object currently displaying.
 Object* Window::currentObj; 
 
+glm::vec3 Window::curPoint;
+glm::vec3 Window::lastPoint;
+bool Window::leftButtonPressed;
+
 glm::mat4 Window::projection; // Projection matrix.
 
 glm::vec3 Window::eye(0, 0, 20); // Camera position.
@@ -148,12 +152,6 @@ void Window::resizeCallback(GLFWwindow* window, int width, int height)
 		double(width) / (double)height, 1.0, 1000.0);
 }
 
-void Window::idleCallback()
-{
-	// Perform any updates as necessary. 
-	currentObj->update();
-}
-
 void Window::displayCallback(GLFWwindow* window)
 {	
 	// Clear the color and depth buffers.
@@ -205,24 +203,53 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 	}
 }
 
-void Window::mouseCallback(GLFWwindow* window, int button, int action, int mods) {
+void Window::positionCallback(GLFWwindow* window, double xpos, double ypos)
+{
+	curPoint = trackBallMapping(glm::vec2(xpos, ypos));
+
+	if (leftButtonPressed)
+	{
+		currentObj->rotate(lastPoint, curPoint);
+	}
+
+	lastPoint = curPoint;
+}
+
+void Window::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
 	if (action == GLFW_PRESS)
 	{
-		switch (button)
-		{
-		case GLFW_MOUSE_BUTTON_RIGHT:
-			printf("right button\n");
-			break;
-		case GLFW_MOUSE_BUTTON_LEFT:
-			printf("left button\n");
-			break;
-		default:
-			break;
+		if (button == GLFW_MOUSE_BUTTON_LEFT) {
+			leftButtonPressed = true;
+		}
+	}
+	else if (action == GLFW_RELEASE)
+	{
+		if (button == GLFW_MOUSE_BUTTON_LEFT) {
+			leftButtonPressed = false;
 		}
 	}
 }
 
-void Window::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
-	printf("%f\n", yoffset);
+void Window::scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+{
 	currentObj->changeSize(yoffset);
+}
+
+glm::vec3 Window::trackBallMapping(glm::vec2 point)
+{
+	glm::vec3 v;
+	float d;
+
+	v.x = (2.0f * point.x - width) / width;
+	v.y = (height - 2.0f * point.y) / height;
+	v.z = 0.0f;
+
+	d = glm::length(v);
+
+	d = (d < 1.0f) ? d : 1.0f;
+	v.z = sqrtf(1.001f - d * d);
+
+	v = glm::normalize(v);
+	return v;
 }

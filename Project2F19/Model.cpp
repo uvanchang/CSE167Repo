@@ -179,20 +179,19 @@ void Model::draw()
 	glBindVertexArray(0);
 }
 
-void Model::update()
+void Model::rotate(glm::vec3 lastPoint, glm::vec3 curPoint)
 {
-	// Spin the cube by 1 degree.
-	//spin(0.1f);
-}
+	glm::vec3 direction = curPoint - lastPoint;
+	float velocity = glm::length(direction);
 
-void Model::spin(float deg)
-{
-	// Update the model matrix by multiplying a rotation matrix
-	model = glm::rotate(model, glm::radians(deg), glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::vec3 rotationAxis = glm::cross(lastPoint, curPoint);
+	float rotationAngle = velocity;
+
+	model = glm::rotate(model, rotationAngle, rotationAxis);
 }
 
 void Model::changeSize(double offset)
 {
-	model = glm::scale(model, glm::vec3(1 - offset * 0.05));
+	model = glm::scale(model, glm::vec3(1 - ((float) offset) * 0.05f));
 }
 

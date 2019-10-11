@@ -21,7 +21,7 @@ public:
 	glm::vec3 getColor() { return color; }
 
 	virtual void draw() = 0;
-	virtual void update() = 0;
+	virtual void rotate(glm::vec3 lastPoint, glm::vec3 curPoint) = 0;
 	virtual void changeSize(double offset) = 0;
 };
 

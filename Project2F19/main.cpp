@@ -12,8 +12,10 @@ void setup_callbacks(GLFWwindow* window)
 	glfwSetErrorCallback(error_callback);
 	// Set the key callback.
 	glfwSetKeyCallback(window, Window::keyCallback);
-	// Set the mouse callback.
-	glfwSetMouseButtonCallback(window, Window::mouseCallback);
+	// Set the mouse position callback.
+	glfwSetCursorPosCallback(window, Window::positionCallback);
+	// Set the mouse button callback.
+	glfwSetMouseButtonCallback(window, Window::mouseButtonCallback);
 	// Set the mouse scroll callback.
 	glfwSetScrollCallback(window, Window::scrollCallback);
 	// Set the window resize callback.
@@ -68,9 +70,6 @@ int main(void)
 	{
 		// Main render display callback. Rendering of objects is done here.
 		Window::displayCallback(window);
-
-		// Idle callback. Updating objects, etc. can be done here.
-		Window::idleCallback();
 	}
 
 	Window::cleanUp();
