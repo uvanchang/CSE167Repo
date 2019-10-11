@@ -55,8 +55,8 @@ bool Window::initializeObjects()
 {
 	// Initialzie Models from 3 obj files.
 	bunny = new Model("bunny.obj");
-	dragon = new Model("dragon.obj");
-	bear = new Model("bear.obj");
+	//dragon = new Model("dragon.obj");
+	//bear = new Model("bear.obj");
 
 	// Set bunny to be the first object to appear.
 	currentObj = bunny;
@@ -203,4 +203,26 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
 			break;
 		}
 	}
+}
+
+void Window::mouseCallback(GLFWwindow* window, int button, int action, int mods) {
+	if (action == GLFW_PRESS)
+	{
+		switch (button)
+		{
+		case GLFW_MOUSE_BUTTON_RIGHT:
+			printf("right button\n");
+			break;
+		case GLFW_MOUSE_BUTTON_LEFT:
+			printf("left button\n");
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void Window::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
+	printf("%f\n", yoffset);
+	currentObj->changeSize(yoffset);
 }

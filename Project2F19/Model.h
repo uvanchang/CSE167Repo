@@ -31,6 +31,7 @@ public:
 	void update();
 
 	void spin(float deg);
+	void changeSize(double offset);
 };
 
 #endif

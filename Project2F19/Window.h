@@ -18,7 +18,6 @@
 #include <sstream>
 
 #include "Object.h"
-#include "Cube.h"
 #include "PointCloud.h"
 #include "shader.h"
 #include "Model.h"
@@ -46,6 +45,8 @@ public:
 	static void idleCallback();
 	static void displayCallback(GLFWwindow*);
 	static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void mouseCallback(GLFWwindow* window, int button, int action, int mods);
+	static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 };
 
 #endif
