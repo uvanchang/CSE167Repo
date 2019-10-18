@@ -29,10 +29,10 @@ void Light::rotate(glm::vec3 lastPoint, glm::vec3 curPoint)
 
 void Light::changeDistance(double offset)
 {
-	if (offset == 1) {
-		lightPos *= 0.95;
+	if (offset > 0) {
+		lightPos *= 0.99;
 	}
 	else {
-		lightPos *= 1.05;
+		lightPos *= 1.01;
 	}
 }

@@ -33,7 +33,7 @@ void main()
 	if (isLight == 1) {
 		fragColor = vec4(vec3(light.ambient), 1.0);
 	}
-	else if (normalColoring == 1) {
+	else if (normalColoring == 0) {
 		// ambient
 		vec3 ambient = light.ambient * material.ambient;
   	
