@@ -7,6 +7,7 @@
 #include <GL/glew.h>
 #endif
 
+#include "glm/gtx/rotate_vector.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <vector>

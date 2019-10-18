@@ -21,6 +21,7 @@
 #include "PointCloud.h"
 #include "shader.h"
 #include "Model.h"
+#include "Light.h"
 
 struct Material {
 	glm::vec3 ambient;
@@ -38,7 +39,7 @@ public:
 	static Model* bunny;
 	static Model* dragon;
 	static Model* bear;
-	static Model* light;
+	static Light* light;
 	static Object* currentObj;
 	static glm::vec3 curPoint;
 	static glm::vec3 lastPoint;

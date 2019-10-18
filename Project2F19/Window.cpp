@@ -10,7 +10,7 @@ Model* Window::bunny;
 Model* Window::dragon;
 Model* Window::bear;
 
-Model* Window::light;
+Light* Window::light;
 
 // The object currently displaying.
 Object* Window::currentObj; 
@@ -33,16 +33,15 @@ glm::vec3 lightPos(-6.0f, 6.0f, 6.0f);
 glm::mat4 Window::view = glm::lookAt(Window::eye, Window::center, Window::up);
 
 bool normalColoring = false;
-bool firstTime = true;
 
 bool Window::initializeObjects()
 {
 	// Initialize Models from 3 obj files.
 	bunny = new Model("bunny.obj");
-	//dragon = new Model("dragon.obj");
-	//bear = new Model("bear.obj");
+	dragon = new Model("dragon.obj");
+	bear = new Model("bear.obj");
 
-	light = new Model("sphere.obj");
+	light = new Light("sphere.obj", lightPos);
 	
 	// Set bunny to be the first object to appear.
 	currentObj = bunny;
@@ -151,7 +150,7 @@ void Window::displayCallback(GLFWwindow* window)
 
 	glUniform3fv(glGetUniformLocation(currentObjID, "viewPos"), 1, glm::value_ptr(eye));
 
-	glUniform3fv(glGetUniformLocation(currentObjID, "light.position"), 1, glm::value_ptr(lightPos));
+	glUniform3fv(glGetUniformLocation(currentObjID, "light.position"), 1, glm::value_ptr(light->lightPos));
 	glUniform3f(glGetUniformLocation(currentObjID, "light.ambient"), 0.84725f, 0.795f, 0.0745f);
 	glUniform3f(glGetUniformLocation(currentObjID, "light.diffuse"), 0.75164f, 0.60648f, 0.22648f);
 	glUniform3f(glGetUniformLocation(currentObjID, "light.specular"), 0.628281f, 0.555802f, 0.366065f);
@@ -196,17 +195,11 @@ void Window::displayCallback(GLFWwindow* window)
 	glUniformMatrix4fv(glGetUniformLocation(lightID, "model"), 1, GL_FALSE, glm::value_ptr(lightModel));
 	glUniform1i(glGetUniformLocation(lightID, "isLight"), 1);
 
-	glUniform3fv(glGetUniformLocation(lightID, "light.position"), 1, glm::value_ptr(lightPos));
+	glUniform3fv(glGetUniformLocation(lightID, "light.position"), 1, glm::value_ptr(light->lightPos));
 	glUniform3f(glGetUniformLocation(lightID, "light.ambient"), 0.84725f, 0.795f, 0.0745f);;
 
 	// Render the light object.
 	light->draw();
-
-	if (firstTime) {
-		light->translate(lightPos);
-		light->scale(0.05f);
-		firstTime = false;
-	}
 
 	// Gets events, including input such as keyboard and mouse or window resizing.
 	glfwPollEvents();
@@ -271,7 +264,8 @@ void Window::positionCallback(GLFWwindow* window, double xpos, double ypos)
 			light->rotate(lastPoint, curPoint);
 			break;
 		case 3:
-
+			currentObj->rotate(lastPoint, curPoint);
+			light->rotate(lastPoint, curPoint);
 			break;
 		}
 	}
@@ -303,11 +297,11 @@ void Window::scrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 		currentObj->changeSize(yoffset);
 		break;
 	case 2:
-		light->changeSize(yoffset);
+		light->changeDistance(yoffset);
 		break;
 	case 3:
 		currentObj->changeSize(yoffset);
-		light->changeSize(yoffset);
+		light->changeDistance(yoffset);
 		break;
 	}
 }
