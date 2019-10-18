@@ -22,6 +22,13 @@
 #include "shader.h"
 #include "Model.h"
 
+struct Material {
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
+	float shininess;
+};
+
 class Window
 {
 public:
@@ -31,6 +38,7 @@ public:
 	static Model* bunny;
 	static Model* dragon;
 	static Model* bear;
+	static Model* light;
 	static Object* currentObj;
 	static glm::vec3 curPoint;
 	static glm::vec3 lastPoint;
@@ -38,9 +46,9 @@ public:
 	static glm::mat4 projection;
 	static glm::mat4 view;
 	static glm::vec3 eye, center, up;
-	static GLuint program, projectionLoc, viewLoc, modelLoc, colorLoc;
+	static Material material;
+	static int mouseMode;
 
-	static bool initializeProgram();
 	static bool initializeObjects();
 	static void cleanUp();
 	static GLFWwindow* createWindow(int width, int height);

@@ -15,6 +15,7 @@
 #include <fstream>
 
 #include "Object.h"
+#include "shader.h"
 
 class Model : public Object
 {
@@ -26,11 +27,15 @@ private:
 public:
 	Model(std::string fileName);
 	~Model();
+	GLuint ID;
+	std::string fileName;
 
 	void draw();
 
 	void rotate(glm::vec3 lastPoint, glm::vec3 curPoint);
 	void changeSize(double offset);
+	void translate(glm::vec3 pos);
+	void scale(float num);
 };
 
 #endif

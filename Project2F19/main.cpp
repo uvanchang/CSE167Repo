@@ -60,8 +60,6 @@ int main(void)
 	setup_callbacks(window);
 	// Setup OpenGL settings.
 	setup_opengl_settings();
-	// Initialize the shader program; exit if initialization fails.
-	if (!Window::initializeProgram()) exit(EXIT_FAILURE);
 	// Initialize objects/pointers for rendering; exit if initialization fails.
 	if (!Window::initializeObjects()) exit(EXIT_FAILURE);
 	

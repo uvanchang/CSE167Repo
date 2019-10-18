@@ -10,6 +10,7 @@ Model::Model(std::string fileName)
 	// Check whether the file can be opened.
 	if (objFile.is_open())
 	{
+		this->fileName = fileName;
 		std::string line; // A line in the file.
 
 		// Read lines from the file.
@@ -123,10 +124,7 @@ Model::Model(std::string fileName)
 	indicesNum = faceIndices.size() * 3;
 
 	// Model matrix.
-	model = glm::scale(glm::vec3(1.f));
-
-	// The color of the cube. Try setting it to something else!
-	color = glm::vec3(1.0f, 1.0f, 1.0f);
+	model = glm::mat4(1.0f);
 
 	// Generate a vertex array (VAO) and two vertex buffer objects (VBO).
 	glGenVertexArrays(1, &vao);
@@ -157,6 +155,8 @@ Model::Model(std::string fileName)
 	// Unbind from the VAO.
 	glBindVertexArray(0);
 
+	ID = LoadShaders("shaders/shader.vert", "shaders/shader.frag");
+
 	printf("Finished %s\n", fileName.c_str());
 }
 
@@ -166,6 +166,8 @@ Model::~Model()
 	glDeleteBuffers(2, vbos);
 	glDeleteBuffers(1, &ebo);
 	glDeleteVertexArrays(1, &vao);
+
+	glDeleteProgram(ID);
 }
 
 void Model::draw()
@@ -195,3 +197,10 @@ void Model::changeSize(double offset)
 	model = glm::scale(model, glm::vec3(1 - ((float) offset) * 0.05f));
 }
 
+void Model::translate(glm::vec3 pos) {
+	model = glm::translate(model, pos);
+}
+
+void Model::scale(float num) {
+	model = glm::scale(model, glm::vec3(num));
+}
