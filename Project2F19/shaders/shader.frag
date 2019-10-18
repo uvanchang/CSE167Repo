@@ -59,6 +59,6 @@ void main()
 		fragColor = vec4(result, 1.0);
 	}
 	else {
-		fragColor = vec4((normalize(normal) + vec3(1.0) / 2), 1.0);
+		fragColor = vec4((normalize(normal) + vec3(1.0)) / vec3(2.0), 1.0);
 	}
 }
