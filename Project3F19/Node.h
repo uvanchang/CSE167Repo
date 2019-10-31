@@ -8,17 +8,29 @@
 #endif
 
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/transform.hpp>
 #include <vector>
 #include <iostream>
 #include <sstream>
 #include <fstream>
 
+#include "shader.h"
+
 class Node
 {
+private:
+    GLuint shaderProgram;
 public:
-	virtual void draw(glm::mat4 C) = 0;
-	virtual void update() = 0;
+    virtual void draw(glm::mat4 C) = 0;
+    virtual void update() = 0;
+    GLuint getShaderProgram() {
+        return shaderProgram;
+    }
+    void setShaderProgram(GLuint shaderProgram)
+    {
+        this->shaderProgram = shaderProgram;
+    }
 };
 
 #endif
