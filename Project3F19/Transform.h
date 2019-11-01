@@ -17,13 +17,17 @@ private:
     int id;
     int moveDir;
     float degree;
+    glm::vec3 center;
+    float radius = 25.0f;
 public:
     Transform(glm::mat4 M, GLuint shaderProgram = -1, int id = 0);
     ~Transform();
-    void draw(glm::mat4 C);
+    int draw(glm::mat4 C, std::vector<std::pair<glm::vec3, glm::vec3>> frustumPlanes);
     void update();
     void addChild(Node* node);
     void setMoveDir(int dir);
+    static bool boundingSphereOn;
+    static bool cullingOn;
 };
 
 #endif

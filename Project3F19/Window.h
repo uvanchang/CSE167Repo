@@ -14,19 +14,17 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+#include "glm/gtx/rotate_vector.hpp"
 #include <iostream>
 #include <vector>
 #include <memory>
 #include <sstream>
 
-#include "Object.h"
-#include "PointCloud.h"
 #include "shader.h"
-#include "Model.h"
-#include "Light.h"
 #include "Node.h"
 #include "Transform.h"
 #include "Geometry.h"
+#include "BoundingSphere.h"
 
 struct Material {
     glm::vec3 ambient;
@@ -40,19 +38,22 @@ class Window
 public:
     static int width;
     static int height;
-    static const char* windowTitle;
+    static GLFWwindow* window;
+    static const std::string windowTitle;
     static Transform* world;
     static Transform* robot;
     static GLuint uboMatrices;
     static glm::vec3 curPoint;
     static glm::vec3 lastPoint;
     static bool leftButtonPressed;
+    static bool demoMode;
     static glm::mat4 projection;
     static double fov;
     static glm::mat4 view;
     static glm::vec3 eye, center, up;
-    static Material material;
-    static int mouseMode;
+    static float hNear;
+    static float wNear;
+    static std::vector<std::pair<glm::vec3, glm::vec3>> frustumPlanes;
     
     static bool initializeObjects();
     static void cleanUp();
@@ -65,6 +66,7 @@ public:
     static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
     static glm::vec3 trackBallMapping(glm::vec2 point);
+    static void calculateFrustumPlanes();
 };
 
 #endif

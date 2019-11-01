@@ -1,5 +1,5 @@
-#ifndef _GEOMETRY_H_
-#define _GEOMETRY_H_
+#ifndef _BOUNDINGSPHERE_H_
+#define _BOUNDINGSPHERE_H_
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -10,7 +10,7 @@
 
 #include "Node.h"
 
-class Geometry : public Node
+class BoundingSphere : public Node
 {
 private:
     glm::mat4 C;
@@ -19,8 +19,8 @@ private:
     GLuint ebo;
     int indicesNum;
 public:
-    Geometry(std::string filename);
-    ~Geometry();
+    BoundingSphere(std::string filename);
+    ~BoundingSphere();
     int draw(glm::mat4 C, std::vector<std::pair<glm::vec3, glm::vec3>> frustumPlanes);
     void update();
 };
