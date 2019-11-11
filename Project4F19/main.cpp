@@ -30,8 +30,11 @@ void setup_opengl_settings()
     glDepthFunc(GL_LEQUAL);
     // Set polygon drawing mode to fill front and back of each polygon.
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    // Set clear color to black.
-    glClearColor(0.0, 0.0, 0.0, 0.0);
+    // Set clear color to gray.
+    glClearColor(0.1, 0.1, 0.1, 1.0);
+    
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 }
 
 void print_versions()

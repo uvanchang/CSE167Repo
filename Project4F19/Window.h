@@ -24,7 +24,8 @@
 #include "Node.h"
 #include "Transform.h"
 #include "Geometry.h"
-#include "BoundingSphere.h"
+#include "Sphere.h"
+#include "Skybox.h"
 
 struct Material {
     glm::vec3 ambient;
@@ -41,15 +42,13 @@ public:
     static GLFWwindow* window;
     static const std::string windowTitle;
     static Transform* world;
-    static Transform* robot;
-    static GLuint uboMatrices;
+    static Transform* skybox;
     static glm::vec3 curPoint;
     static glm::vec3 lastPoint;
     static bool leftButtonPressed;
-    static bool demoMode;
     static glm::mat4 projection;
-    static double fov;
     static glm::mat4 view;
+    static double fov;
     static glm::vec3 eye, center, up;
     static float hNear;
     static float wNear;
@@ -66,7 +65,6 @@ public:
     static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
     static void scrollCallback(GLFWwindow* window, double xoffset, double yoffset);
     static glm::vec3 trackBallMapping(glm::vec2 point);
-    static void calculateFrustumPlanes();
 };
 
 #endif

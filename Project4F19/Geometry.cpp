@@ -206,7 +206,7 @@ Geometry::~Geometry()
     glDeleteProgram(getShaderProgram());
 }
 
-int Geometry::draw(glm::mat4 C, std::vector<std::pair<glm::vec3, glm::vec3>> frustumPlanes)
+void Geometry::draw(glm::mat4 C)
 {
     this->C = C;
     
@@ -220,8 +220,6 @@ int Geometry::draw(glm::mat4 C, std::vector<std::pair<glm::vec3, glm::vec3>> fru
     glDrawElements(GL_TRIANGLES, indicesNum, GL_UNSIGNED_INT, 0);
     // Unbind from the VAO.
     glBindVertexArray(0);
-    
-    return 0;
 }
 
 void Geometry::update()

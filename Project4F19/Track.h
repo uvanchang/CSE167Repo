@@ -1,5 +1,5 @@
-#ifndef _GEOMETRY_H_
-#define _GEOMETRY_H_
+#ifndef _TRACK_H_
+#define _TRACK_H_
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -8,19 +8,20 @@
 #include <GL/glew.h>
 #endif
 
-#include "Node.h"
+#include "Geometry.h"
+#include "BezierCurve.h"
 
-class Geometry : public Node
+class Track : public Geometry
 {
 private:
     glm::mat4 C;
     GLuint vao;
     GLuint vbos[2];
     GLuint ebo;
-    int indicesNum;
+    BezierCurve children[8];
 public:
-    Geometry(std::string filename);
-    ~Geometry();
+    Track(std::string filename);
+    Track();
     void draw(glm::mat4 C);
     void update();
 };

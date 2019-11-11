@@ -22,7 +22,7 @@ class Node
 private:
     GLuint shaderProgram;
 public:
-    virtual int draw(glm::mat4 C, std::vector<std::pair<glm::vec3, glm::vec3>> frustumPlanes) = 0;
+    virtual void draw(glm::mat4 C) = 0;
     virtual void update() = 0;
     GLuint getShaderProgram() {
         return shaderProgram;

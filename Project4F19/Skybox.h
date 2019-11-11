@@ -1,5 +1,5 @@
-#ifndef _GEOMETRY_H_
-#define _GEOMETRY_H_
+#ifndef _SKYBOX_H_
+#define _SKYBOX_H_
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -10,19 +10,17 @@
 
 #include "Node.h"
 
-class Geometry : public Node
+class Skybox : public Node
 {
 private:
-    glm::mat4 C;
     GLuint vao;
-    GLuint vbos[2];
-    GLuint ebo;
-    int indicesNum;
+    GLuint vbo;
 public:
-    Geometry(std::string filename);
-    ~Geometry();
+    Skybox(std::vector<std::string> facesFilenames);
+    ~Skybox();
     void draw(glm::mat4 C);
     void update();
+    static GLuint cubemapTexture;
 };
 
 #endif

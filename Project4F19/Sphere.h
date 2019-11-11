@@ -1,5 +1,5 @@
-#ifndef _BOUNDINGSPHERE_H_
-#define _BOUNDINGSPHERE_H_
+#ifndef _SPHERE_H_
+#define _SPHERE_H_
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -10,7 +10,7 @@
 
 #include "Node.h"
 
-class BoundingSphere : public Node
+class Sphere : public Node
 {
 private:
     glm::mat4 C;
@@ -19,9 +19,9 @@ private:
     GLuint ebo;
     int indicesNum;
 public:
-    BoundingSphere(std::string filename);
-    ~BoundingSphere();
-    int draw(glm::mat4 C, std::vector<std::pair<glm::vec3, glm::vec3>> frustumPlanes);
+    Sphere(std::string filename);
+    ~Sphere();
+    void draw(glm::mat4 C);
     void update();
 };
 

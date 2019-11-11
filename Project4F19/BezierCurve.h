@@ -1,5 +1,5 @@
-#ifndef _GEOMETRY_H_
-#define _GEOMETRY_H_
+#ifndef _BEZIERCURVE_H_
+#define _BEZIERCURVE_H_
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -8,9 +8,9 @@
 #include <GL/glew.h>
 #endif
 
-#include "Node.h"
+#include "Geometry.h"
 
-class Geometry : public Node
+class BezierCurve : public Geometry
 {
 private:
     glm::mat4 C;
@@ -19,10 +19,11 @@ private:
     GLuint ebo;
     int indicesNum;
 public:
-    Geometry(std::string filename);
-    ~Geometry();
+    BezierCurve(std::string filename);
+    BezierCurve();
     void draw(glm::mat4 C);
     void update();
+    glm::vec3 getPoint(GLuint t);
 };
 
 #endif

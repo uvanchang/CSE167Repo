@@ -1,6 +1,7 @@
-#include "BoundingSphere.h"
+#include "Sphere.h"
+#include "Window.h"
 
-BoundingSphere::BoundingSphere(std::string filename)
+Sphere::Sphere(std::string filename)
 {
     std::ifstream objFile(filename); // The obj file we are reading.
     std::vector<glm::vec3> points;
@@ -157,7 +158,7 @@ BoundingSphere::BoundingSphere(std::string filename)
     printf("Finished %s\n", filename.c_str());
 }
 
-BoundingSphere::~BoundingSphere()
+Sphere::~Sphere()
 {
     // Delete the VBOs, EBO, and VAO.
     glDeleteBuffers(2, vbos);
@@ -167,24 +168,27 @@ BoundingSphere::~BoundingSphere()
     glDeleteProgram(getShaderProgram());
 }
 
-int BoundingSphere::draw(glm::mat4 C, std::vector<std::pair<glm::vec3, glm::vec3>> frustumPlanes)
+void Sphere::draw(glm::mat4 C)
 {
     this->C = C;
     
     glUseProgram(getShaderProgram());
     glUniformMatrix4fv(glGetUniformLocation(getShaderProgram(), "model"), 1, GL_FALSE, glm::value_ptr(this->C));
+    glUniformMatrix4fv(glGetUniformLocation(getShaderProgram(), "view"), 1, GL_FALSE, glm::value_ptr(Window::view));
+    glUniformMatrix4fv(glGetUniformLocation(getShaderProgram(), "projection"), 1, GL_FALSE, glm::value_ptr(Window::projection));
+    glUniform3fv(glGetUniformLocation(getShaderProgram(), "cameraPos"), 1, glm::value_ptr(Window::eye));
     
     // Bind to the VAO.
     glBindVertexArray(vao);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, Skybox::cubemapTexture);
     // Draw triangles using the indices in the second VBO, which is an
     // element array buffer.
     glDrawElements(GL_TRIANGLES, indicesNum, GL_UNSIGNED_INT, 0);
     // Unbind from the VAO.
     glBindVertexArray(0);
-    
-    return 0;
 }
 
-void BoundingSphere::update()
+void Sphere::update()
 {
 }
