@@ -14,14 +14,12 @@ class Transform : public Node
 private:
     glm::mat4 M;
     std::vector<Node*> children;
-    int moveDir;
 public:
-    Transform(glm::mat4 M, GLuint shaderProgram = -1, int id = 0);
+    Transform(glm::mat4 M, GLuint shaderProgram = -1);
     ~Transform();
     void draw(glm::mat4 C);
     void update();
     void addChild(Node* node);
-    void setMoveDir(int dir);
 };
 
 #endif

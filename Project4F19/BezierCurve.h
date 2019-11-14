@@ -8,22 +8,24 @@
 #include <GL/glew.h>
 #endif
 
-#include "Geometry.h"
+#include "Node.h"
 
-class BezierCurve : public Geometry
+class BezierCurve : public Node
 {
 private:
     glm::mat4 C;
+    std::vector<glm::vec3> coeff;
     GLuint vao;
-    GLuint vbos[2];
-    GLuint ebo;
+    GLuint vbo;
     int indicesNum;
 public:
-    BezierCurve(std::string filename);
-    BezierCurve();
+    std::vector<glm::vec3> p;
+    BezierCurve(std::vector<glm::vec3> p);
+    ~BezierCurve();
     void draw(glm::mat4 C);
     void update();
-    glm::vec3 getPoint(GLuint t);
+    void updateCoeff();
+    glm::vec3 getPoint(float t);
 };
 
 #endif

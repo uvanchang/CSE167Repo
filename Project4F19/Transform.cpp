@@ -1,6 +1,6 @@
 #include "Transform.h"
 
-Transform::Transform(glm::mat4 M, GLuint shaderProgram, int id)
+Transform::Transform(glm::mat4 M, GLuint shaderProgram)
 {
     this->M = M;
     this->setShaderProgram(shaderProgram);
@@ -38,8 +38,4 @@ void Transform::addChild(Node* node)
     {
         node->setShaderProgram(getShaderProgram());
     }
-}
-
-void Transform::setMoveDir(int dir) {
-    moveDir = dir;
 }

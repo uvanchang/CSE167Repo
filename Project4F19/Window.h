@@ -14,7 +14,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
-#include "glm/gtx/rotate_vector.hpp"
+#include <glm/gtx/rotate_vector.hpp>
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -26,6 +26,8 @@
 #include "Geometry.h"
 #include "Sphere.h"
 #include "Skybox.h"
+#include "BezierCurve.h"
+#include "Track.h"
 
 struct Material {
     glm::vec3 ambient;
@@ -43,16 +45,15 @@ public:
     static const std::string windowTitle;
     static Transform* world;
     static Transform* skybox;
+    static Track* track;
     static glm::vec3 curPoint;
     static glm::vec3 lastPoint;
     static bool leftButtonPressed;
     static glm::mat4 projection;
     static glm::mat4 view;
+    static GLuint uboMatrices;
     static double fov;
     static glm::vec3 eye, center, up;
-    static float hNear;
-    static float wNear;
-    static std::vector<std::pair<glm::vec3, glm::vec3>> frustumPlanes;
     
     static bool initializeObjects();
     static void cleanUp();

@@ -8,22 +8,27 @@
 #include <GL/glew.h>
 #endif
 
-#include "Geometry.h"
+#include "Node.h"
 #include "BezierCurve.h"
 
-class Track : public Geometry
+class Track : public Node
 {
 private:
     glm::mat4 C;
     GLuint vao;
     GLuint vbos[2];
     GLuint ebo;
-    BezierCurve children[8];
+    GLuint lineVao;
+    GLuint lineVbo;
+    int indicesNum;
+    std::vector<BezierCurve*> curves;
 public:
-    Track(std::string filename);
     Track();
+    ~Track();
     void draw(glm::mat4 C);
     void update();
+    void setCurves(std::vector<BezierCurve*> curves);
+    void movePoint(int num, glm::vec3 translate);
 };
 
 #endif
