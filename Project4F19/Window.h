@@ -54,6 +54,9 @@ public:
     static GLuint uboMatrices;
     static double fov;
     static glm::vec3 eye, center, up;
+    static GLuint selectedPoint;
+    static bool isPaused;
+    static bool isRider;
     
     static bool initializeObjects();
     static void cleanUp();

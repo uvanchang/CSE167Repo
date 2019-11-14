@@ -20,12 +20,14 @@ private:
     int indicesNum;
 public:
     std::vector<glm::vec3> p;
+    float length;
     BezierCurve(std::vector<glm::vec3> p);
     ~BezierCurve();
     void draw(glm::mat4 C);
     void update();
     void updateCoeff();
     glm::vec3 getPoint(float t);
+    glm::vec3 getTangent(float t);
 };
 
 #endif

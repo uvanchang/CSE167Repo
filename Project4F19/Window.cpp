@@ -5,7 +5,7 @@ int Window::height;
 
 GLFWwindow* Window::window;
 
-const std::string Window::windowTitle = "GLFW Starter Project";
+const std::string Window::windowTitle = "Project4F19";
 
 Transform* Window::world;
 Transform* Window::skybox;
@@ -27,7 +27,10 @@ glm::mat4 Window::view = glm::lookAt(Window::eye, Window::center, Window::up);
 
 GLuint Window::uboMatrices;
 
-GLuint selectedPoint = 0;
+GLuint Window::selectedPoint = 0;
+
+bool Window::isPaused = false;
+bool Window::isRider = false;
 
 bool Window::initializeObjects()
 {
@@ -65,7 +68,7 @@ bool Window::initializeObjects()
     
     GLuint sphereShader = LoadShaders("shaders/SphereShader.vert", "shaders/SphereShader.frag");
 
-    Transform* sphere = new Transform(glm::translate(glm::vec3(3.5, 0, 8.5)) * glm::scale(glm::vec3(0.1)), sphereShader);
+    Transform* sphere = new Transform(glm::scale(glm::vec3(0.1)) * glm::translate(glm::vec3(3.5, 0, 8.5)), sphereShader, 1);
 
     world->addChild(sphere);
 
@@ -173,6 +176,7 @@ void Window::resizeCallback(GLFWwindow* window, int width, int height)
 
 void Window::idleCallback()
 {
+    world->update();
 }
 
 void Window::displayCallback(GLFWwindow* window)
@@ -248,6 +252,18 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
                 else
                 {
                     track->movePoint(selectedPoint, glm::vec3(0, 0, 0.2));
+                }
+                break;
+            case GLFW_KEY_P:
+                isPaused = !isPaused;
+                break;
+            case GLFW_KEY_C:
+                isRider = !isRider;
+                if (!isRider)
+                {
+                    eye = glm::vec3(-10, 5, 15);
+                    center = glm::vec3(0, 0, 0);
+                    view = glm::lookAt(Window::eye, Window::center, Window::up);
                 }
                 break;
             default:

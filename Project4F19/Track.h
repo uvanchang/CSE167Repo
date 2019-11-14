@@ -21,8 +21,8 @@ private:
     GLuint lineVao;
     GLuint lineVbo;
     int indicesNum;
-    std::vector<BezierCurve*> curves;
 public:
+    std::vector<BezierCurve*> curves;
     Track();
     ~Track();
     void draw(glm::mat4 C);

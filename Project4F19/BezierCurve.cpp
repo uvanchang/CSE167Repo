@@ -16,6 +16,8 @@ BezierCurve::BezierCurve(std::vector<glm::vec3> p)
         points.push_back(getPoint(i));
     }
     
+    length = 150 * glm::length(getPoint(1.0f/150.0f) - getPoint(0.0f));
+    
     indicesNum = points.size();
     
     glGenVertexArrays(1, &vao);
@@ -69,11 +71,17 @@ void BezierCurve::updateCoeff()
     coeff[3] = p[0];
     
     std::vector<glm::vec3> points;
-    
-    for (float i = 0.0f; i < 1.0f; i += 1.0f/150.0f)
+    float length = 0;
+    for (float i = 0.0f, j = 0; i < 1.0f; i += 1.0f/150.0f, j++)
     {
         points.push_back(getPoint(i));
+        if (j != 0)
+        {
+            length += glm::length(points[j] - points[j - 1]);
+        }
     }
+    
+    this->length = length;
     
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * points.size(),
@@ -85,3 +93,7 @@ glm::vec3 BezierCurve::getPoint(float t)
     return coeff[0] * pow(t, 3.0f) + coeff[1] * pow(t, 2.0f) + coeff[2] * t + coeff[3];
 }
 
+glm::vec3 BezierCurve::getTangent(float t)
+{
+    return 3.0f * coeff[0] * pow(t, 2.0f) + 2.0f * coeff[1] * t + coeff[2];
+}

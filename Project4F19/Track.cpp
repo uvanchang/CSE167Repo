@@ -1,4 +1,5 @@
 #include "Track.h"
+#include "Window.h"
 
 Track::Track()
 {
@@ -171,6 +172,7 @@ Track::~Track()
 void Track::draw(glm::mat4 C)
 {
     this->C = C;
+    GLuint point = 0;
     for (BezierCurve* curve: curves)
     {
         curve->draw(C);
@@ -179,7 +181,15 @@ void Track::draw(glm::mat4 C)
         glm::mat4 model = glm::translate(curve->p[0]) * glm::scale(glm::vec3(0.01));
         glUseProgram(getShaderProgram());
         glUniformMatrix4fv(glGetUniformLocation(getShaderProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model));
-        glUniform3fv(glGetUniformLocation(getShaderProgram(), "color"), 1, glm::value_ptr(glm::vec3(1.0, 0.0, 0.0)));
+        if (point == Window::selectedPoint)
+        {
+            glUniform3fv(glGetUniformLocation(getShaderProgram(), "color"), 1, glm::value_ptr(glm::vec3(0.0, 0.0, 1.0)));
+        }
+        else
+        {
+            glUniform3fv(glGetUniformLocation(getShaderProgram(), "color"), 1, glm::value_ptr(glm::vec3(1.0, 0.0, 0.0)));
+        }
+        point++;
         
         glBindVertexArray(vao);
         glDrawElements(GL_TRIANGLES, indicesNum, GL_UNSIGNED_INT, 0);
@@ -189,7 +199,15 @@ void Track::draw(glm::mat4 C)
         model = glm::translate(curve->p[1]) * glm::scale(glm::vec3(0.01));
         glUseProgram(getShaderProgram());
         glUniformMatrix4fv(glGetUniformLocation(getShaderProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model));
-        glUniform3fv(glGetUniformLocation(getShaderProgram(), "color"), 1, glm::value_ptr(glm::vec3(0.0, 1.0, 0.0)));
+        if (point == Window::selectedPoint)
+        {
+            glUniform3fv(glGetUniformLocation(getShaderProgram(), "color"), 1, glm::value_ptr(glm::vec3(0.0, 0.0, 1.0)));
+        }
+        else
+        {
+            glUniform3fv(glGetUniformLocation(getShaderProgram(), "color"), 1, glm::value_ptr(glm::vec3(0.0, 1.0, 0.0)));
+        }
+        point++;
         
         glBindVertexArray(vao);
         glDrawElements(GL_TRIANGLES, indicesNum, GL_UNSIGNED_INT, 0);
@@ -199,7 +217,15 @@ void Track::draw(glm::mat4 C)
         model = glm::translate(curve->p[2]) * glm::scale(glm::vec3(0.01));
         glUseProgram(getShaderProgram());
         glUniformMatrix4fv(glGetUniformLocation(getShaderProgram(), "model"), 1, GL_FALSE, glm::value_ptr(model));
-        glUniform3fv(glGetUniformLocation(getShaderProgram(), "color"), 1, glm::value_ptr(glm::vec3(0.0, 1.0, 0.0)));
+        if (point == Window::selectedPoint)
+        {
+            glUniform3fv(glGetUniformLocation(getShaderProgram(), "color"), 1, glm::value_ptr(glm::vec3(0.0, 0.0, 1.0)));
+        }
+        else
+        {
+            glUniform3fv(glGetUniformLocation(getShaderProgram(), "color"), 1, glm::value_ptr(glm::vec3(0.0, 1.0, 0.0)));
+        }
+        point++;
         
         glBindVertexArray(vao);
         glDrawElements(GL_TRIANGLES, indicesNum, GL_UNSIGNED_INT, 0);
@@ -250,7 +276,7 @@ void Track::setCurves(std::vector<BezierCurve*> curves)
 void Track::movePoint(int num, glm::vec3 translate)
 {
     BezierCurve* curve1 = curves[num / 3];
-    std::cout << "first curve " << num / 3 << std::endl;
+    
     int curveIndex = num / 3 - 1;
     if (curveIndex < 0)
     {
@@ -265,7 +291,7 @@ void Track::movePoint(int num, glm::vec3 translate)
         }
     }
     BezierCurve* curve2 = curves[curveIndex];
-    std::cout << "second curve " << curveIndex << std::endl;
+    
     if (num % 3 == 0)  // anchor point
     {
         curve1->p[0] += translate;
@@ -277,13 +303,11 @@ void Track::movePoint(int num, glm::vec3 translate)
     {
         if (num % 3 == 1)
         {
-            std::cout << "1 " << num << std::endl;
             curve1->p[1] += translate;
             curve2->p[2] -= translate;
         }
         else
         {
-            std::cout << num << std::endl;
             curve1->p[2] += translate;
             curve2->p[1] -= translate;
         }
