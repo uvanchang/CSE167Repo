@@ -57,6 +57,7 @@ public:
     static GLuint selectedPoint;
     static bool isPaused;
     static bool isRider;
+    static bool isVariableVel;
     
     static bool initializeObjects();
     static void cleanUp();

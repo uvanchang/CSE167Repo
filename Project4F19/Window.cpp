@@ -31,6 +31,7 @@ GLuint Window::selectedPoint = 0;
 
 bool Window::isPaused = false;
 bool Window::isRider = false;
+bool Window::isVariableVel = false;
 
 bool Window::initializeObjects()
 {
@@ -266,6 +267,8 @@ void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, 
                     view = glm::lookAt(Window::eye, Window::center, Window::up);
                 }
                 break;
+            case GLFW_KEY_V:
+                isVariableVel = !isVariableVel;
             default:
                 break;
         }

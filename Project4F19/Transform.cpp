@@ -68,7 +68,15 @@ void Transform::addChild(Node* node)
 
 glm::vec3 Transform::spherePosition(float deltaTime)
 {
-    float frameDistance = 5 * deltaTime;
+    float speed = 5.0f;
+    if (Window::isVariableVel)
+    {
+        float y = Window::track->curves[(int)dist]->getPoint(dist - (int)dist).y + 30;
+
+        speed = -0.5 * y + 20;
+    }
+    
+    float frameDistance = speed * deltaTime;
     glm::vec3 position;
     
     if ((int)(frameDistance + dist) > (int)dist) // should go to next curve
